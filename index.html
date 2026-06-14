@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Finance Diary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-emerald-500 selection:text-slate-950">
+
+    <nav id="main-nav" class="hidden bg-slate-900/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-50 p-4">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                <h1 class="text-lg font-black tracking-widest text-white">MY FINANCE DIARY</h1>
+                <span id="persona-badge" class="hidden text-[10px] font-mono tracking-widest bg-slate-950 border border-slate-800 text-slate-400 px-2 py-0.5 rounded-md uppercase">User Type Unset</span>
+            </div>
+            <div class="space-x-1 md:space-x-2 flex items-center flex-wrap justify-center">
+                <button onclick="switchPage('income-page')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-emerald-400 hover:bg-slate-800/60">Income</button>
+                <button onclick="switchPage('diary-page')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-blue-400 hover:bg-slate-800/60">Expenses</button>
+                <button onclick="switchPage('checklist-page')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-purple-400 hover:bg-slate-800/60">Fixed Bills</button>
+                <button onclick="switchPage('analytics-page')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-amber-400 hover:bg-slate-800/60">Analytics Hub</button>
+                <button onclick="switchPage('history-page')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-cyan-400 hover:bg-slate-800/60">History Logs</button>
+                <button onclick="logout()" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-red-400 hover:bg-red-950/20 border border-transparent hover:border-red-900/40 ml-2">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-8 flex flex-col justify-center">
+
+        <section id="home-page" class="space-y-8 max-w-4xl mx-auto w-full py-12">
+            <div class="text-center space-y-4 max-w-2xl mx-auto">
+                <div class="inline-flex items-center gap-2 bg-slate-900 px-4 py-1.5 rounded-full border border-slate-800 shadow-xl pulse-node">
+                    <span class="text-[11px] font-mono tracking-widest text-slate-400 uppercase">Diary System Ready</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+                    Manage Your Personal Money and Savings with <span class="text-emerald-400">Total Comfort</span>
+                </h2>
+                <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                    A simple money tracker built to log your income, manage daily dynamic expenses with a built-in math calculator, and cross-check fixed bills.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                <div onclick="selectPersona('College Student')" class="demographic-card bg-slate-900 p-6 rounded-2xl border border-slate-800/80 hover:border-emerald-500/40 flex flex-col justify-between shadow-2xl cursor-pointer">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-mono font-bold mb-4">01</div>
+                        <h4 class="text-lg font-bold text-white">College Student</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Track college pocket money, simple stipends, course expenses, and hostel food items easily.</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-emerald-400 tracking-wider uppercase mt-6">Select Profile &rarr;</span>
+                </div>
+
+                <div onclick="selectPersona('Homemaker')" class="demographic-card bg-slate-900 p-6 rounded-2xl border border-slate-800/80 hover:border-blue-500/40 flex flex-col justify-between shadow-2xl cursor-pointer">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-mono font-bold mb-4">02</div>
+                        <h4 class="text-lg font-bold text-white">Home Maker</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Manage monthly family household allowances, kitchen grocery shopping bills, and general home repair costs.</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-blue-400 tracking-wider uppercase mt-6">Select Profile &rarr;</span>
+                </div>
+
+                <div onclick="selectPersona('Professional')" class="demographic-card bg-slate-900 p-6 rounded-2xl border border-slate-800/80 hover:border-purple-500/40 flex flex-col justify-between shadow-2xl cursor-pointer">
+                    <div>
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 font-mono font-bold mb-4">03</div>
+                        <h4 class="text-lg font-bold text-white">Corporate / Other</h4>
+                        <p class="text-xs text-slate-400 mt-2 leading-relaxed">Monitor office salaries, professional freelance invoice checks, office rent, and investment goals.</p>
+                    </div>
+                    <span class="text-xs font-mono font-bold text-purple-400 tracking-wider uppercase mt-6">Select Profile &rarr;</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="login-page" class="hidden max-w-md w-full mx-auto bg-slate-900 p-8 rounded-2xl shadow-2xl border border-slate-800/80">
+            <div class="flex justify-center border-b border-slate-800 pb-4 mb-6">
+                <button id="tab-login" onclick="setAuthMode('login')" class="flex-1 text-center font-black tracking-wider text-xs uppercase py-2 text-white">Log In</button>
+                <button id="tab-signup" onclick="setAuthMode('signup')" class="flex-1 text-center font-bold tracking-wider text-xs uppercase py-2 text-slate-500 hover:text-slate-300">Sign Up</button>
+            </div>
+            <div class="text-center mb-4">
+                <p id="login-persona-notice" class="text-slate-400 text-xs font-mono">Preparing workspace profile node...</p>
+                <p id="auth-error-msg" class="text-red-400 text-xs font-mono mt-2 hidden bg-red-950/30 p-2 rounded border border-red-900/40"></p>
+            </div>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Username</label>
+                    <input type="text" id="auth-username" class="mt-1 block w-full rounded-lg bg-slate-950 border border-slate-800 p-3 text-sm text-white outline-none font-mono" required>
+                </div>
+                <div id="field-email" class="hidden">
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Email Address</label>
+                    <input type="email" id="auth-email" class="mt-1 block w-full rounded-lg bg-slate-950 border border-slate-800 p-3 text-sm text-white outline-none font-mono">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Password</label>
+                    <input type="password" id="auth-password" class="mt-1 block w-full rounded-lg bg-slate-950 border border-slate-800 p-3 text-sm text-white outline-none font-mono" required>
+                </div>
+                <div id="field-confirm-password" class="hidden">
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Confirm Password</label>
+                    <input type="password" id="auth-confirm-password" class="mt-1 block w-full rounded-lg bg-slate-950 border border-slate-800 p-3 text-sm text-white outline-none font-mono">
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-3 rounded-lg font-bold hover:brightness-110 shadow-lg text-xs uppercase tracking-wider">Log In to Diary</button>
+                <div class="text-center mt-4">
+                    <button type="button" onclick="switchPage('home-page')" class="text-[11px] text-slate-500 hover:text-slate-300 underline font-mono">← Go back to profiles</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="income-page" class="hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800/60 shadow-lg">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Income Earned</p>
+                    <p id="income-total" class="text-3xl font-black text-emerald-400 mt-1">₹0.00</p>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800/60 md:col-span-2 flex flex-col justify-center">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Net Available Money Status</h4>
+                    <p class="text-sm text-slate-300 mt-1">Remaining pocket money balance: <span id="net-wallet-status" class="font-mono font-bold text-emerald-400 text-base">₹0.00</span></p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800/60 shadow-xl space-y-4">
+                    <h3 class="text-base font-black text-white uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-1 h-3.5 bg-emerald-400 rounded-sm"></span> Add New Income
+                    </h3>
+                    <form id="income-form" class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Where did it come from?</label>
+                            <input type="text" id="inc-source" placeholder="e.g., Job Salary, Pocket Money, Gift" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-sm text-white outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Amount (₹)</label>
+                            <input type="number" id="inc-amount" step="0.01" placeholder="0.00" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-sm text-white outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Income Group</label>
+                            <select id="inc-type" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-xs text-slate-300 outline-none">
+                                <option value="Active Core">Main Job Monthly Salary</option>
+                                <option value="Contract/Freelance">Freelance Projects Money</option>
+                                <option value="Household Allowance">Family Pocket Allowance</option>
+                                <option value="Passive/Investments">Extra Income Savings</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-500 text-slate-950 font-black p-2.5 rounded-md hover:bg-emerald-400 uppercase tracking-widest text-[10px]">Save Income Entry</button>
+                    </form>
+                </div>
+                <div class="lg:col-span-2 bg-slate-900 p-5 rounded-xl border border-slate-800/60 flex flex-col h-full min-h-[420px] shadow-xl">
+                    <h3 class="text-base font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span class="w-1 h-3.5 bg-blue-400 rounded-sm"></span> Saved Income List
+                    </h3>
+                    <div class="flex-1 overflow-y-auto space-y-2 max-h-[340px]">
+                        <ul id="income-list" class="space-y-2"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="diary-page" class="hidden space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800/60 shadow-lg">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Money Spent</p>
+                    <p id="diary-total" class="text-2xl font-black text-red-400 mt-1">₹0.00</p>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800/60 lg:col-span-3 flex items-center justify-between overflow-hidden relative shadow-lg">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Category-Wise Cost Summary</p>
+                        <p class="text-xs text-slate-500 mt-0.5 font-mono">Real-time category bar feed list.</p>
+                    </div>
+                    <div class="w-44 h-16 relative">
+                        <canvas id="categoryMiniChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                <div class="space-y-6">
+                    <div class="bg-slate-900 p-5 rounded-xl border border-slate-800/60 shadow-xl">
+                        <h3 class="text-base font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span class="w-1 h-3.5 bg-red-400 rounded-sm"></span> Log New Expense Cost
+                        </h3>
+                        <form id="expense-form" class="space-y-4">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Expense Item Description</label>
+                                <input type="text" id="exp-desc" placeholder="e.g., Dinner Food, Rent, Train ticket" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-sm text-white outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Cost Amount (₹)</label>
+                                <input type="number" id="exp-amount" step="0.01" placeholder="0.00" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-sm text-white outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">Expense Category Pillar</label>
+                                <select id="exp-category" class="mt-1 block w-full rounded-md bg-slate-950 border border-slate-800 p-2.5 text-xs text-slate-300 outline-none">
+                                    <option value="Operational">Daily Living Costs</option>
+                                    <option value="Academics/Growth">Studies & Course Materials</option>
+                                    <option value="Logistics/Utilities">Home Utilities & Bills</option>
+                                    <option value="Leisure">Fun, Outings & Leisure</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold p-2.5 rounded-md hover:brightness-110 uppercase tracking-widest text-[10px]">Save Expense Entry</button>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800/60 shadow-xl">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Diary Bill Calculator</span>
+                        </div>
+                        <input type="text" id="calc-screen" readonly class="w-full bg-slate-950 text-right text-xl font-mono p-3 rounded-lg mb-3 text-blue-400 border border-slate-800/80 shadow-inner outline-none" value="0">
+                        <div class="grid grid-cols-4 gap-1.5 mb-2.5">
+                            <button onclick="pressCalc('C')" class="calc-btn bg-slate-800 text-red-400 p-2.5 rounded-lg font-mono font-bold text-xs">C</button>
+                            <button onclick="pressCalc('/')" class="calc-btn bg-slate-800 text-blue-400 p-2.5 rounded-lg font-mono font-bold text-xs">/</button>
+                            <button onclick="pressCalc('*')" class="calc-btn bg-slate-800 text-blue-400 p-2.5 rounded-lg font-mono font-bold text-xs">*</button>
+                            <button onclick="pressCalc('-')" class="calc-btn bg-slate-800 text-blue-400 p-2.5 rounded-lg font-mono font-bold text-xs">-</button>
+                            <button onclick="pressCalc('7')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">7</button>
+                            <button onclick="pressCalc('8')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">8</button>
+                            <button onclick="pressCalc('9')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">9</button>
+                            <button onclick="pressCalc('+')" class="calc-btn bg-slate-800 text-blue-400 p-2.5 rounded-lg row-span-2 flex items-center justify-center font-mono font-bold text-xs h-full">+</button>
+                            <button onclick="pressCalc('4')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">4</button>
+                            <button onclick="pressCalc('5')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">5</button>
+                            <button onclick="pressCalc('6')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">6</button>
+                            <button onclick="pressCalc('1')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">1</button>
+                            <button onclick="pressCalc('2')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">2</button>
+                            <button onclick="pressCalc('3')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">3</button>
+                            <button onclick="pressCalc('=')" class="calc-btn bg-gradient-to-b from-blue-500 to-indigo-600 text-white p-2.5 rounded-lg row-span-2 flex items-center justify-center font-mono font-bold text-xs h-full shadow-md">=</button>
+                            <button onclick="pressCalc('0')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg col-span-2 font-mono font-semibold text-xs">0</button>
+                            <button onclick="pressCalc('.')" class="calc-btn bg-slate-950 text-slate-300 p-2.5 rounded-lg font-mono font-semibold text-xs">.</button>
+                        </div>
+                        <button onclick="useCalcAmount()" class="w-full bg-slate-950 border border-blue-900/50 text-blue-400 font-bold py-2 px-3 rounded-lg text-[10px] uppercase tracking-widest flex items-center justify-center gap-1">⬇ Use Calculated Total</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-slate-900 p-5 rounded-xl border border-slate-800/60 flex flex-col h-full min-h-[580px] shadow-xl">
+                    <h3 class="text-base font-black text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-3.5 bg-indigo-500 rounded-sm"></span> Saved Monthly Expenses List
+                    </h3>
+                    <div class="flex-1 overflow-y-auto pr-1 max-h-[480px]">
+                        <ul id="expense-list" class="space-y-2"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="checklist-page" class="hidden max-w-2xl w-full mx-auto bg-slate-900 p-6 rounded-xl border border-slate-800/60 shadow-2xl space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h3 class="text-lg font-black text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-1 h-3.5 bg-purple-400 rounded-sm"></span> Fixed Monthly Obligations Checklist
+                </h3>
+                <p class="text-xs text-slate-400 mt-1 font-mono">Check off your mandatory structural monthly house bills here.</p>
+            </div>
+            <form id="checklist-form" class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800/60">
+                <input type="text" id="chk-title" placeholder="e.g., Room Rent, Wi-Fi Bill" class="sm:col-span-1 rounded-lg bg-slate-900 border border-slate-800 p-2.5 text-xs text-white outline-none" required>
+                <input type="number" id="chk-amount" placeholder="Amount (₹)" step="0.01" class="sm:col-span-1 rounded-lg bg-slate-900 border border-slate-800 p-2.5 text-xs text-white outline-none" required>
+                <button type="submit" class="bg-purple-600 text-white font-bold p-2.5 rounded-lg text-[10px] hover:bg-purple-500 uppercase tracking-widest shadow">Add Fixed Bill</button>
+            </form>
+            <div class="rounded-xl bg-slate-950/50 p-2 border border-slate-800/40">
+                <ul id="checklist-items-list" class="space-y-2"></ul>
+            </div>
+        </section>
+
+        <section id="analytics-page" class="hidden space-y-6">
+            <div class="text-center md:text-left">
+                <h2 class="text-2xl font-black tracking-wider uppercase text-white">Monthly Analytics Hub</h2>
+                <p class="text-xs text-slate-400 font-mono mt-1">Simple visual pie chart overview of your earnings vs spending layout.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                <div class="lg:col-span-2 bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl flex flex-col items-center justify-center min-h-[420px]">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest font-mono mb-6 self-start">Current Month Money Breakup</h3>
+                    <div class="w-full max-w-[340px] aspect-square relative">
+                        <canvas id="macroDistributionPieChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800/60 shadow-xl space-y-4">
+                        <h4 class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Safe Expense-Only Sharing
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Create a safe link that copies **ONLY your list of monthly items and costs**. Your private income data, personal savings numbers, and profile details will remain completely hidden.
+                        </p>
+                        <button onclick="generateSecureSharePayload()" class="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-black p-3 rounded-xl hover:brightness-110 text-xs uppercase tracking-wider transition-all shadow-md">
+                            🔗 Copy Expense Link to Clipboard
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800/60 shadow-xl space-y-3">
+                        <h4 class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">Archive Active Month Sheets</h4>
+                        <p class="text-[11px] text-slate-500">Lock away the current month's item entries and push them straight into your long-term history log book.</p>
+                        <div class="flex gap-2">
+                            <input type="text" id="archive-month-label" placeholder="e.g., June 2026" class="flex-1 rounded-lg bg-slate-950 border border-slate-800 px-3 py-2 text-xs text-white outline-none font-mono">
+                            <button onclick="sealAndArchiveCurrentCycle()" class="bg-slate-800 border border-slate-700 text-slate-200 hover:text-white px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap">Freeze Month</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="history-page" class="hidden space-y-6 max-w-4xl mx-auto w-full">
+            <div>
+                <h2 class="text-2xl font-black tracking-wider uppercase text-white">Past Months History Log Book</h2>
+                <p class="text-xs text-slate-400 font-mono mt-1">Review finalized summary calculations from preceding months.</p>
+            </div>
+            <div id="history-timeline-root" class="space-y-6 relative before:absolute before:top-2 before:bottom-2 before:left-4 before:w-[1px] before:bg-slate-800"></div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
