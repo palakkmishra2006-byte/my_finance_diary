@@ -1,5 +1,5 @@
 Finance Diary (Updated Version)
-
+live demo[https://my-finance-diary.vercel.app/]
 A simple and user-friendly Finance Diary application to help track daily income, expenses, and savings. This updated version provides a cleaner interface and improved financial record management.
 
 Features
